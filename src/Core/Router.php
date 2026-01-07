@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Controllers\HomeController;
+
 class Router
 {
 
@@ -11,16 +13,29 @@ class Router
 
     public function __construct()
     {
-        $this->routes = [
-            "GET" => [],
-            "POST" => []
-        ];
+       $this->routes = [
+    "GET" => [
+        "/" => [HomeController::class, "index"],
+
+        "/admin" => [AuthController::class, "loginForm"],
+        "/admin/dashboard" => [AdminController::class, "dashboard"],
+        "/admin/products" => [AdminProductController::class, "index"],
+        "/admin/products/create" => [AdminProductController::class, "create"],
+    ],
+
+    "POST" => [
+        "/admin/login" => [AuthController::class, "login"],
+        "/admin/products/store" => [AdminProductController::class, "store"],
+        "/admin/products/delete" => [AdminProductController::class, "delete"],
+    ]
+];
+
     }
 
     public function run()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        $method = strtolower($method);
+        $method = strtoupper($method);
 
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = strtolower(str_replace("\\", "/", $uri));

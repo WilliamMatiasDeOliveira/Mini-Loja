@@ -5,11 +5,11 @@ namespace App\Functions;
 
 class Helpers
 {
-    public function layout($page, $title){
+    public static function layout($page, $title){
         $title = $title;
         require_once __DIR__ . "/../../Views/layouts/header.php";
         require_once __DIR__ . "/../../Views/layouts/nav.php";
-        require_once __DIR__ . "/../../Views/$page";
+        require_once __DIR__ . "/../../Views/$page.php";
         require_once __DIR__ . "/../../Views/layouts/footer.php";
     }
 }
