@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controllers\AdminController;
+use App\Controllers\AdminProductController;
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
 use App\Controllers\ProductController;
@@ -24,14 +25,16 @@ class Router
         "/auth/logout" => [AuthController::class, "logout"],
 
         "/admin/dashboard" => [AdminController::class, "dashboard"],
-        "/admin/products" => [ProductController::class, "countProduct"],
+        "/admin/products/index" => [AdminProductController::class, "index"],
+        "/admin/products/show-products" => [AdminProductController::class, "showProducts"],
         "/admin/products/create" => [AdminProductController::class, "create"],
     ],
 
     "POST" => [
-        "/admin/login" => [AuthController::class, "login"],
-        "/admin/products/store" => [AdminProductController::class, "store"],
-        "/admin/products/delete" => [AdminProductController::class, "delete"],
+        "/auth/login" => [AuthController::class, "login"],
+
+        // "/admin/products/store" => [AdminProductController::class, "store"],
+        // "/admin/products/delete" => [AdminProductController::class, "delete"],
     ]
 ];
 

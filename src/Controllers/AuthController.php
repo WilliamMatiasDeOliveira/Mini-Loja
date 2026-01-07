@@ -58,7 +58,8 @@ class AuthController
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         unset($_SESSION['user']);
         header("Location: /");
         exit;

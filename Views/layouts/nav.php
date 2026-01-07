@@ -47,10 +47,15 @@
                     </li>
                 <?php else: ?>
                     <li class="nav-item ms-lg-3">
-                        <span class="text-info"><?= $_SESSION['user']['email'] ?></span>
-                        <a href="/auth/logout" class="btn btn-outline-danger btn-sm">
-                            Logout
+                    <li class="nav-item ms-lg-3">
+                        <a href="/admin/dashboard" class="btn btn-outline-light btn-sm">
+                            Dashboard
                         </a>
+                    </li>
+                    <span class="text-info"><?= $_SESSION['user']['email'] ?></span>
+                    <a href="/auth/logout" class="btn btn-outline-danger btn-sm">
+                        Logout
+                    </a>
                     </li>
                 <?php endif; ?>
 

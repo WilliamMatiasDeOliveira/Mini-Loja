@@ -24,7 +24,7 @@ unset($_SESSION['old'], $_SESSION['error']);
             <p class="card-text">Informe seu e-mail e senha para continuar</p>
         </div>
 
-        <form method="post" action="/admin/login">
+        <form method="post" action="/auth/login">
 
             <div class="mb-3">
                 <label class="form-label text-light">E-mail</label>
