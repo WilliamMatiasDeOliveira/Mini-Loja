@@ -38,6 +38,13 @@ ul {
     list-style: none;
 }
 
+.form-control::placeholder {
+    color: silver;
+    font-size: 0.9rem;
+    font-style: italic;
+    font-weight: 300;
+}
+
 /* -----------------------------
    CORES DO TEMA
 ------------------------------ */

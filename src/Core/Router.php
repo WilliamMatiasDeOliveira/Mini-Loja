@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Controllers\AdminController;
+use App\Controllers\AuthController;
 use App\Controllers\HomeController;
 
 class Router
@@ -17,7 +19,9 @@ class Router
     "GET" => [
         "/" => [HomeController::class, "index"],
 
-        "/admin" => [AuthController::class, "loginForm"],
+        "/auth/login" => [AuthController::class, "loginForm"],
+        "/auth/logout" => [AuthController::class, "logout"],
+
         "/admin/dashboard" => [AdminController::class, "dashboard"],
         "/admin/products" => [AdminProductController::class, "index"],
         "/admin/products/create" => [AdminProductController::class, "create"],

@@ -1,6 +1,5 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm"
-     style="background-color: var(--bg-card);">
+    style="background-color: var(--bg-card);">
     <div class="container">
 
         <!-- LOGO -->
@@ -40,11 +39,20 @@
                 </li>
 
                 <!-- CTA -->
-                <li class="nav-item ms-lg-3">
-                    <a href="/login" class="btn btn-outline-light btn-sm">
-                        Entrar
-                    </a>
-                </li>
+                <?php if (!isset($_SESSION['user'])): ?>
+                    <li class="nav-item ms-lg-3">
+                        <a href="/auth/login" class="btn btn-outline-light btn-sm">
+                            Entrar
+                        </a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item ms-lg-3">
+                        <span class="text-info"><?= $_SESSION['user']['email'] ?></span>
+                        <a href="/auth/logout" class="btn btn-outline-danger btn-sm">
+                            Logout
+                        </a>
+                    </li>
+                <?php endif; ?>
 
             </ul>
         </div>
