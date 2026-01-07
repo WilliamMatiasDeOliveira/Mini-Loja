@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Quando acessar apenas /evolution, envia para /evolution/public
+RewriteRule ^$ public/ [L]
+
+# Quando acessar qualquer subcaminho, envia para /evolution/public/ mantendo o restante da URL
+RewriteRule ^(.*)$ public/$1 [L]

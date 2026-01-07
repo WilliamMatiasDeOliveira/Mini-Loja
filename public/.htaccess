@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Se você estiver usando virtualhost (evolution.test)
+    RewriteBase /
+
+    # Se o arquivo ou pasta existir fisicamente, não redireciona
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Envia TUDO para index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>

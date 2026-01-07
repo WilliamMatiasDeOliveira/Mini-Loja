@@ -1,0 +1,16 @@
+# Dependências
+/vendor/
+
+# Configurações sensíveis
+/config/config.php
+
+# Uploads dinâmicos
+/public/assets/images/uploads/*
+!/public/assets/images/uploads/.gitkeep
+
+# Logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
