@@ -7,6 +7,7 @@ namespace App\Core;
 use App\Controllers\AdminController;
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
+use App\Controllers\ProductController;
 
 class Router
 {
@@ -23,7 +24,7 @@ class Router
         "/auth/logout" => [AuthController::class, "logout"],
 
         "/admin/dashboard" => [AdminController::class, "dashboard"],
-        "/admin/products" => [AdminProductController::class, "index"],
+        "/admin/products" => [ProductController::class, "countProduct"],
         "/admin/products/create" => [AdminProductController::class, "create"],
     ],
 

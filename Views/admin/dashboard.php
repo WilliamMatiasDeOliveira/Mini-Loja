@@ -1,5 +1,10 @@
 
-
+<?php
+if(isset($_SESSION['param'])){
+    $param = $_SESSION['param'];
+    unset($_SESSION['param']);
+}
+?>
 
 <!-- DASHBOARD ADMINISTRATIVO -->
 <div class="container mt-5">
@@ -8,7 +13,7 @@
 <div class="d-flex justify-between align-center mb-4">
     <div>
         <h3>Dashboard</h3>
-        <p class="text-muted">Visão geral da loja</p>
+        <p class="text-secondary">Visão geral da loja</p>
     </div>
 </div>
 
@@ -17,32 +22,32 @@
 
     <div class="col-md-3">
         <div class="card">
-            <h6>Total de Produtos</h6>
-            <h3 class="mt-2">120</h3>
+            <h6 class="text-info">Total de Produtos</h6>
+            <h3 class="mt-2 text-warning"><?= $param['countProduct'] ?? "" ?></h3>
             <p class="card-text">Produtos cadastrados</p>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="card">
-            <h6>Estoque Baixo</h6>
-            <h3 class="mt-2 text-warning">8</h3>
+            <h6 class="text-info">Estoque Baixo</h6>
+            <h3 class="mt-2 text-warning"><?= $param['lowStorege'] ?? "" ?></h3>
             <p class="card-text">Precisam de reposição</p>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="card">
-            <h6>Pedidos Hoje</h6>
-            <h3 class="mt-2">15</h3>
+            <h6 class="text-info">Pedidos Hoje</h6>
+            <h3 class="mt-2 text-warning">ajustar</h3>
             <p class="card-text">Novos pedidos</p>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="card">
-            <h6>Faturamento</h6>
-            <h3 class="mt-2 text-success">R$ 4.250</h3>
+            <h6 class="text-info">Faturamento</h6>
+            <h3 class="mt-2 text-success">R$ ajustar</h3>
             <p class="card-text">Últimas 24h</p>
         </div>
     </div>
