@@ -16,6 +16,10 @@ if(isset($_SESSION['fail_cad_product'])){
     $fail_cad_product = $_SESSION['fail_cad_product'];
     unset($_SESSION['fail_cad_product']);
 }
+if(isset($_SESSION['success_cad_product'])){
+    $success_cad_product = $_SESSION['success_cad_product'];
+    unset($_SESSION['success_cad_product']);
+}
 
 ?>
 
@@ -28,6 +32,11 @@ if(isset($_SESSION['fail_cad_product'])){
             <?php if(isset($fail_cad_product)): ?>
                 <div class="alert alert-danger text-center">
                     <?= $fail_cad_product ?>
+                </div>
+            <?php endif; ?>
+            <?php if(isset($success_cad_product)): ?>
+                <div class="alert alert-success text-center">
+                    <?= $success_cad_product ?>
                 </div>
             <?php endif; ?>
            

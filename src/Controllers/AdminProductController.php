@@ -62,11 +62,15 @@ class AdminProductController
         $adminProduct = new AdminProduct();
         $res = $adminProduct->store($data, $files);
 
-        if($res){
+        if ($res) {
             $_SESSION['fail_cad_product'] = $res;
             header("Location: /admin/products/create");
             exit;
         }
+
+        $_SESSION['success_cad_product'] = "Produto cadastrado com sucesso !";
+        header("Location: /admin/products/create");
+        exit;
     }
 
     public function showProducts()
