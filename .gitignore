@@ -1,5 +1,6 @@
 # Dependências
 /vendor/
+/node_modules/
 
 # Configurações sensíveis
 /config/config.php

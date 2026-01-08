@@ -17,27 +17,26 @@ class Router
 
     public function __construct()
     {
-       $this->routes = [
-    "GET" => [
-        "/" => [HomeController::class, "index"],
+        $this->routes = [
+            "GET" => [
+                "/" => [HomeController::class, "index"],
 
-        "/auth/login" => [AuthController::class, "loginForm"],
-        "/auth/logout" => [AuthController::class, "logout"],
+                "/auth/login" => [AuthController::class, "loginForm"],
+                "/auth/logout" => [AuthController::class, "logout"],
 
-        "/admin/dashboard" => [AdminController::class, "dashboard"],
-        "/admin/products/index" => [AdminProductController::class, "index"],
-        "/admin/products/show-products" => [AdminProductController::class, "showProducts"],
-        "/admin/products/create" => [AdminProductController::class, "create"],
-    ],
+                "/admin/products/index" => [AdminProductController::class, "index"],
+                "/admin/products/create" => [AdminProductController::class, "create"],
+                "/admin/dashboard" => [AdminController::class, "dashboard"],
+                "/admin/products/show-products" => [AdminProductController::class, "showProducts"],
+            ],
 
-    "POST" => [
-        "/auth/login" => [AuthController::class, "login"],
+            "POST" => [
+                "/auth/login" => [AuthController::class, "login"],
 
-        // "/admin/products/store" => [AdminProductController::class, "store"],
-        // "/admin/products/delete" => [AdminProductController::class, "delete"],
-    ]
-];
+                "/admin/products/store" => [AdminProductController::class, "store"],
 
+            ]
+        ];
     }
 
     public function run()
@@ -61,15 +60,15 @@ class Router
         }
 
         [$controller, $action] = $this->routes[$method][$uri];
-        
-        if(!class_exists($controller)){
+
+        if (!class_exists($controller)) {
             $this->defaultResponse(500, "Controller $controller not found !");
             return;
         }
 
         $instance = new $controller();
 
-        if(!method_exists($instance, $action)){
+        if (!method_exists($instance, $action)) {
             $this->defaultResponse(500, "Action $action not found in controller $controller !");
             return;
         }
