@@ -15,7 +15,7 @@ class AdminProductController
         $Adminproduct = new AdminProduct();
         $products = $Adminproduct->index();
         $_SESSION['products'] = $products;
-        header("Location: /admin/products/show-products");
+        header("Location: /admin/products/show");
         exit;
     }
 
@@ -62,7 +62,8 @@ class AdminProductController
         $adminProduct = new AdminProduct();
         $res = $adminProduct->store($data, $files);
 
-        if ($res) {
+        if ($res !== true) {
+            $_SESSION['old'] = $old;
             $_SESSION['fail_cad_product'] = $res;
             header("Location: /admin/products/create");
             exit;
@@ -73,7 +74,7 @@ class AdminProductController
         exit;
     }
 
-    public function showProducts()
+    public function show()
     {
         Helpers::layout("admin/showProducts", "Estoque");
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Controllers\AdminCategoryControllers;
 use App\Controllers\AdminController;
 use App\Controllers\AdminProductController;
 use App\Controllers\AuthController;
@@ -23,17 +24,25 @@ class Router
 
                 "/auth/login" => [AuthController::class, "loginForm"],
                 "/auth/logout" => [AuthController::class, "logout"],
+                
+                "/admin/dashboard" => [AdminController::class, "dashboard"],
 
                 "/admin/products/index" => [AdminProductController::class, "index"],
                 "/admin/products/create" => [AdminProductController::class, "create"],
-                "/admin/dashboard" => [AdminController::class, "dashboard"],
-                "/admin/products/show-products" => [AdminProductController::class, "showProducts"],
+                "/admin/products/show" => [AdminProductController::class, "show"],
+
+                "/admin/category/menage" => [AdminCategoryControllers::class, "menage"],
+                "/admin/category/create" => [AdminCategoryControllers::class, "create"],
+                "/admin/category/update" => [AdminCategoryControllers::class, "update"],
+                "/admin/category/delete" => [AdminCategoryControllers::class, "delete"],
             ],
 
             "POST" => [
                 "/auth/login" => [AuthController::class, "login"],
 
                 "/admin/products/store" => [AdminProductController::class, "store"],
+
+                "/admin/category/store" => [AdminCategoryControllers::class, "store"],
 
             ]
         ];

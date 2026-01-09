@@ -46,17 +46,21 @@
                         </a>
                     </li>
                 <?php else: ?>
-                    <li class="nav-item ms-lg-3">
-                    <li class="nav-item ms-lg-3">
-                        <a href="/admin/dashboard" class="btn btn-outline-light btn-sm">
-                            Dashboard
-                        </a>
-                    </li>
-                    <span class="text-info"><?= $_SESSION['user']['email'] ?></span>
-                    <a href="/auth/logout" class="btn btn-outline-danger btn-sm">
-                        Logout
-                    </a>
-                    </li>
+                    <div class="nav-item ms-auto justify-content-end d-flex flex-wrap col">
+                        <div class="row col-10 text-end">
+                            <span class="text-info">
+                                <?= $_SESSION['user']['email'] ?>
+                            </span>
+                        </div>
+                        <div class="d-flex me-2">
+                                <a href="/admin/dashboard" class="btn btn-outline-light btn-sm">
+                                    Dashboard
+                                </a>
+                                <a href="/auth/logout" class="btn btn-outline-danger btn-sm">
+                                    Logout
+                                </a>
+                        </div>
+                    </div>
                 <?php endif; ?>
 
             </ul>

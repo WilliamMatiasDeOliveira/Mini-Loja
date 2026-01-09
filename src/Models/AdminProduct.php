@@ -35,6 +35,12 @@ class AdminProduct extends Connection
 
     public function store(array $data, array $files)
     {
+        // verificar se este produto ja existe
+        if ($this->checkIfProductsExists($data['codigo'])) {
+            $product_exists = "Este produto já existe em estoque.";
+            return $product_exists;
+        }
+
         // inserir produto
         $this->pdo->beginTransaction();
 
@@ -73,6 +79,7 @@ class AdminProduct extends Connection
 
                 if ($files['error'][$index] !== UPLOAD_ERR_OK) {
                     $upload_image_fail = "Houve um erro ao enviar a imagem.";
+                    $this->pdo->rollBack();
                     return $upload_image_fail;
                 }
 
@@ -83,6 +90,7 @@ class AdminProduct extends Connection
 
                 if (!in_array($extension, $extensions_validate)) {
                     $extension_invalid = "A imagem deve ter as extenssões JPG, JPEG ou PNG";
+                    $this->pdo->rollBack();
                     return $extension_invalid;
                 }
 
@@ -90,6 +98,7 @@ class AdminProduct extends Connection
 
                 if (!move_uploaded_file($tmp_name, $destino . "/" . $image_name)) {
                     $move_image_fail = "Falha ao salvar a imagem no servidor.";
+                    $this->pdo->rollBack();
                     return $move_image_fail;
                 }
 
@@ -104,11 +113,21 @@ class AdminProduct extends Connection
             }
 
             $this->pdo->commit();
-            return;
-            
+            return true;
         } catch (Exception $e) {
-            throw new Exception("Erro ao cadastrar o produto: " . $e->getMessage());
+            $this->pdo->rollBack();
+            return "Erro ao cadastrar o produto";
         }
+    }
+
+    private function checkIfProductsExists(string $codigo)
+    {
+        $sql =  "SELECT * FROM produtos WHERE codigo = :codigo";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ":codigo" => $codigo
+        ]);
+        return (bool) $stmt->fetch();
     }
 
     public function countProduct()

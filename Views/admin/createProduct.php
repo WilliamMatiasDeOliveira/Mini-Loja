@@ -56,7 +56,7 @@ if(isset($_SESSION['success_cad_product'])){
                                 <option value="">Selecione</option>
                                 <?php foreach ($categorias as $categoria): ?>
                                     <option value="<?= $categoria['id'] ?>">
-                                        <?= $categoria['nome'] ?>
+                                        <?= ucwords($categoria['nome']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
