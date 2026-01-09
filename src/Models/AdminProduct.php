@@ -120,7 +120,42 @@ class AdminProduct extends Connection
         }
     }
 
-    private function checkIfProductsExists(string $codigo)
+    public function add(string $codigo, int $quantidade)
+    {
+
+        $sql = "SELECT id FROM produtos WHERE codigo = :codigo LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ":codigo" => $codigo
+        ]);
+        $id_product = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if(!$id_product){
+            return false;
+        }
+
+        $sql = "SELECT quantidade FROM estoque WHERE produto_id = :produto_id LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ":produto_id" => $id_product['id']
+        ]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(!$res){
+            return false;
+        }
+
+        $total = $res['quantidade'] + $quantidade;
+        $sql = "UPDATE estoque SET quantidade = $total WHERE produto_id = :produto_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            "produto_id" => $id_product['id']
+        ]);
+
+        return true;
+    }
+
+    public function checkIfProductsExists(string $codigo)
     {
         $sql =  "SELECT * FROM produtos WHERE codigo = :codigo";
         $stmt = $this->pdo->prepare($sql);

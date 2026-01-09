@@ -70,7 +70,7 @@ if (isset($_SESSION['param'])) {
         <div class="col-md-4">
             <div class="card h-100">
                 <h5 class="text-light">Categorias</h5>
-                <p class="card-text"><span class="text-primary">Adicione</span>, <span class="text-danger">remova</span> ou <span class="text-warning">edite</span> novas categorias.</p>
+                <p class="card-text">Adicione, Remova ou Edite novas categorias.</p>
                 <div class="d-flex gap-2 mt-3">
                     <a href="/admin/category/menage" class="btn btn-outline">Gerenciar</a>
                 </div>
@@ -79,10 +79,10 @@ if (isset($_SESSION['param'])) {
 
         <div class="col-md-4">
             <div class="card h-100">
-                <h5 class="text-light">Pedidos</h5>
-                <p class="card-text">Acompanhe as vendas</p>
+                <h5 class="text-light">Adicionar ao estoque</h5>
+                <p class="card-text">Gerencie a quantidade de produtos em estoque.</p>
                 <div class="d-flex gap-2 mt-3">
-                    <a href="#" class="btn btn-outline">Ver pedidos</a>
+                    <a href="/admin/products/add" class="btn btn-outline">Adicionar</a>
                 </div>
             </div>
         </div>

@@ -30,6 +30,7 @@ class Router
                 "/admin/products/index" => [AdminProductController::class, "index"],
                 "/admin/products/create" => [AdminProductController::class, "create"],
                 "/admin/products/show" => [AdminProductController::class, "show"],
+                "/admin/products/add" => [AdminProductController::class, "addForm"],
 
                 "/admin/category/menage" => [AdminCategoryControllers::class, "menage"],
                 "/admin/category/create" => [AdminCategoryControllers::class, "create"],
@@ -41,6 +42,7 @@ class Router
                 "/auth/login" => [AuthController::class, "login"],
 
                 "/admin/products/store" => [AdminProductController::class, "store"],
+                "/admin/products/add" => [AdminProductController::class, "add"],
 
                 "/admin/category/store" => [AdminCategoryControllers::class, "store"],
 
