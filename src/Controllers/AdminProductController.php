@@ -179,7 +179,7 @@ class AdminProductController
         }
 
         $_SESSION['success'] = 'Produto atualizado com sucesso';
-        header('Location: /admin/products/show');
+        header('Location: /admin/products/index');
         exit;
     }
 
