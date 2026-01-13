@@ -2,10 +2,19 @@
 if (isset($_SESSION['products'])) {
     $products = $_SESSION['products'];
 }
+if(isset($_SESSION['success'])){
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 ?>
 
 <div class="container mt-5">
 
+<?php if(isset($success)): ?>
+    <div class="alert alert-success text-center">
+        <?= $success ?>
+    </div>
+<?php endif; ?>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold">Controle de Estoque</h4>
 
@@ -68,7 +77,7 @@ if (isset($_SESSION['products'])) {
                                     </td>
 
                                     <td class="text-end">
-                                        <a href="/admin/products/edit?id=<?= $product['id'] ?>"
+                                        <a href="/admin/products/form-edit?id=<?= $product['id'] ?>"
                                             class="btn btn-sm btn-outline-warning">
                                             Editar
                                         </a>

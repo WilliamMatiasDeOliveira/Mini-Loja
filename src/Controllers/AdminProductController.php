@@ -79,6 +79,111 @@ class AdminProductController
         Helpers::layout("admin/showProducts", "Estoque");
     }
 
+    public function update()
+    {
+        $data  = $_POST;
+        $files = $_FILES;
+        $old   = $_POST;
+        $error = [];
+
+        // =========================
+        // Validações
+        // =========================
+        if (empty($data['categoria'])) {
+            $error['categoria'] = 'A categoria é obrigatória';
+        }
+        if (empty($data['nome'])) {
+            $error['nome'] = 'O nome é obrigatório';
+        }
+        if (empty($data['codigo'])) {
+            $error['codigo'] = 'O código é obrigatório';
+        }
+        if (empty($data['preco'])) {
+            $error['preco'] = 'O preço é obrigatório';
+        }
+        if (empty($data['quantidade'])) {
+            $error['quantidade'] = 'A quantidade é obrigatória';
+        }
+
+        if (!empty($error)) {
+            $_SESSION['error'] = $error;
+            $_SESSION['old']   = $old;
+            header('Location: /admin/products/form-edit?id=' . $data['id']);
+            exit;
+        }
+
+        $adminProduct = new AdminProduct();
+        $adminProduct->update($data);
+
+        // =========================
+        // Atualiza estoque
+        // =========================
+        $adminProduct->updateStock(
+            (int) $data['id'],
+            (int) $data['quantidade']
+        );
+
+        // =========================
+        // Upload de imagens (somente se houver)
+        // =========================
+        $temUpload = false;
+
+        if (isset($files['imagens']['name'])) {
+            foreach ($files['imagens']['name'] as $name) {
+                if (!empty($name)) {
+                    $temUpload = true;
+                    break;
+                }
+            }
+        }
+
+        if ($temUpload) {
+
+            $productId = (int) $data['id'];
+
+            // remove imagens antigas
+            $imagensAntigas = $adminProduct->getImagesByProduct($productId);
+
+            $uploadDir = __DIR__ . '/../../public/assets/images/uploads/';
+
+            foreach ($imagensAntigas as $img) {
+                $path = $uploadDir . $img['imagem'];
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+
+            $adminProduct->deleteImages($productId);
+
+            // salva novas imagens
+            foreach ($files['imagens']['name'] as $i => $name) {
+
+                if (empty($name)) {
+                    continue;
+                }
+
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $newName = uniqid('prod_', true) . '.' . $ext;
+
+                move_uploaded_file(
+                    $files['imagens']['tmp_name'][$i],
+                    $uploadDir . $newName
+                );
+
+                $adminProduct->insertImage([
+                    'produto_id' => $data['id'],
+                    'imagem'     => $newName,
+                    'principal'  => $i === 0 ? 1 : 0
+                ]);
+            }
+        }
+
+        $_SESSION['success'] = 'Produto atualizado com sucesso';
+        header('Location: /admin/products/show');
+        exit;
+    }
+
+
     public function addForm()
     {
         Helpers::layout("admin/addForm", "Adicionar");
@@ -122,5 +227,27 @@ class AdminProductController
         $_SESSION['success_stock'] = "Estoque atualizado com sucesso !";
         header("Location: /admin/products/add");
         exit;
+    }
+
+    public function formEdit()
+    {
+
+        if (!isset($_GET['id']) && !is_numeric($_GET['id'])) {
+            header("Location: /admin/products/show");
+            exit;
+        }
+
+        $id = $_GET['id'];
+        $adminProduct = new AdminProduct();
+        $produto = $adminProduct->findProductById($id);
+
+        if (!$produto) {
+            header("Location: /admin/products/show");
+            exit;
+        }
+
+        $_SESSION['produto'] = $produto;
+        $_SESSION['categorias'] = $adminProduct->selectAllCategories();
+        Helpers::layout("admin/editProduct", "Editar Produto");
     }
 }

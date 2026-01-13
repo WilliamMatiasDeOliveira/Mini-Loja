@@ -129,8 +129,8 @@ class AdminProduct extends Connection
             ":codigo" => $codigo
         ]);
         $id_product = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if(!$id_product){
+
+        if (!$id_product) {
             return false;
         }
 
@@ -141,7 +141,7 @@ class AdminProduct extends Connection
         ]);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if(!$res){
+        if (!$res) {
             return false;
         }
 
@@ -154,6 +154,104 @@ class AdminProduct extends Connection
 
         return true;
     }
+
+    public function update(array $data)
+    {
+        $sql = " UPDATE produtos SET
+                categoria_id = :categoria,
+                nome = :nome,
+                descricao = :descricao,
+                preco = :preco,
+                codigo = :codigo,
+                STATUS = :status
+            WHERE id = :id
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id", $data['id']);
+        $stmt->bindValue(":categoria", $data['categoria']);
+        $stmt->bindValue(":nome", $data['nome']);
+        $stmt->bindValue(":descricao", $data['descricao']);
+        $stmt->bindValue(":preco", $data['preco']);
+        $stmt->bindValue(":codigo", $data['codigo']);
+        $stmt->bindValue(":status", $data['status']);
+        $stmt->execute();
+    }
+
+    public function updateStock(int $produtoId, int $quantidade): void
+    {
+        $sql = "UPDATE estoque SET quantidade = :qtd WHERE produto_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":qtd", $quantidade);
+        $stmt->bindValue(":id", $produtoId);
+        $stmt->execute();
+    }
+
+    public function getImagesByProduct(int $id): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT imagem FROM imagens_produto WHERE produto_id = :id"
+        );
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteImages(int $id): void
+    {
+        $sql =  "DELETE FROM imagens_produto WHERE produto_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+    }
+
+    public function insertImage(array $data): void
+    {
+        $sql = "INSERT INTO imagens_produto (produto_id, imagem, principal)
+            VALUES (:produto_id, :imagem, :principal)";
+
+        $this->pdo->prepare($sql)->execute([
+            ':produto_id' => $data['produto_id'],
+            ':imagem'     => $data['imagem'],
+            ':principal'  => $data['principal']
+        ]);
+    }
+
+
+    public function findProductById($id)
+    {
+
+        $sql = "SELECT * FROM produtos WHERE id = :id LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+        $prod = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$prod) {
+            return null;
+        }
+
+        $sql = "SELECT * FROM estoque WHERE produto_id = :produto_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":produto_id", $prod['id']);
+        $stmt->execute();
+        $prod['estoque'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $sql = "SELECT * FROM imagens_produto WHERE produto_id = :produto_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":produto_id", $prod['id']);
+        $stmt->execute();
+        $prod['imgs'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $sql = "SELECT * FROM categorias WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id", $prod['categoria_id']);
+        $stmt->execute();
+        $prod['categoria'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $prod;
+    }
+
 
     public function checkIfProductsExists(string $codigo)
     {

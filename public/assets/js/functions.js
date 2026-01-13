@@ -54,7 +54,7 @@ function renderPreview(file, index) {
         const col = document.createElement('div');
         col.className = 'col-md-3';
 
-        col.innerHTML = `
+        col.innerHTML = `        
             <div class="card h-100">
                 <img src="${e.target.result}" class="card-img-top"
                      style="height:180px;object-fit:contain">
